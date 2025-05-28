@@ -1,5 +1,5 @@
-create database bd_cds;
-use bd_cds;
+create database DB_CDS;
+use DB_CDS;
 
 create table artista(
 	cod_artista int not null,
