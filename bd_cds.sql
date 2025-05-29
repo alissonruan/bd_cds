@@ -30,7 +30,7 @@ create table estado(
 );
 
 create table cidade(
-	cod_cidade char(2) not null,
+	cod_cidade int not null,
 	nome_cidade varchar(100) not null,
 	sigla_estado char(2) not null,
 	constraint foreign key (sigla_estado) references estado (sigla_estado),
@@ -77,7 +77,7 @@ create table dependente(
 	nome_dependente varchar(100) not null,
 	sexo_dependente char(1) not null,
 	constraint pk_dependente primary key (cod_dependente),
-	constraint ch_dependente check(sexo_dependente('M', 'F')),
+	constraint ch_dependente check(sexo_dependente in ('M', 'F')),
 	constraint foreign key (cod_funcionario) references funcionario (cod_funcionario)
 );
 
@@ -151,7 +151,7 @@ select *from conjuge;
 insert into funcionario values (1, 'Vania Gabriela Pereira','Rua A', 2500.00, 'F' ), (2, 'Norberto Pereira da Silva', 'Rua B', 3000.00, 'M'), (3, 'Olavio Linhares', 'Rua C', 5800.00, 'M'), (4, 'Paula da Silva', 'Rua D', 3000.00, 'F'), (5, 'Rolando Rocha', 'Rua D', 2000.00, 'M');
 select * from funcionario;
 
-insert into dependente values (1, 1, 'Ana Pereira', 'F'), (2, 1, 'Roberto Pereira', M), (3, 1, 'Celso Pereira', 'M'), (4, 3, 'Brisa Linhares', 'F'), (5, 3, 'Mari Sol Linhares', 'F'), (6, 4, 'Sonia da Silva', 'F');
+insert into dependente values (1, 1, 'Ana Pereira', 'F'), (2, 1, 'Roberto Pereira', 'M'), (3, 1, 'Celso Pereira', 'M'), (4, 3, 'Brisa Linhares', 'F'), (5, 3, 'Mari Sol Linhares', 'F'), (6, 4, 'Sonia da Silva', 'F');
 select * from dependente; 
 
 insert into titulo values (1, 1, 1, 'Tribalista', 30.00, 1500), (2, 1, 2, 'Tropicália', 50.00, 500), (3, 1, 1, 'Aquele Abraço', 50.00, 600), (4, 1, 2, 'Refazenda', 60.00, 1000), (5, 1, 3, 'Totalmente Demais', 50.00, 2000), (6, 1, 3, 'Travessia', 55.00, 500), (7, 1, 2, 'Courage', 30.00, 200), (8, 4, 3, 'Legião Urbana', 20.00, 100), (9, 3, 2, 'The Beatles', 30.00, 300), (10, 4, 1, 'Rita Lee', 30.00, 500);
@@ -165,3 +165,51 @@ select * from titulo_artista;
 
 insert into titulo_pedido values (1, 1, 2, 30.00), (1, 2, 3, 20.00), (2, 1, 1, 50.00), (2, 2, 3, 30.00), (3, 1, 2, 40.00), (4, 2, 3, 20.00), (5, 1, 2, 25.00), (6, 2, 3, 30.00), (7, 4, 2, 55.00), (8, 1, 4, 60.00), (9, 2, 3, 15.00), (10, 7, 2, 15.00);
 select * from titulo_pedido; 
+
+/*Selecionar o nome dos cds e da gravadora*/
+select titulo.nome_cd, gravadora.nome_gravadora
+from titulo inner join gravadora
+on titulo.cod_gravadora = gravadora.cod_gravadora;
+
+/*Selecionar os nomes dos cds e da categoria*/
+select titulo.nome_cd, categoria.nome_categoria
+from titulo inner join categoria
+on titulo.cod_categoria = categoria.cod_categoria;
+
+/*Selecionar o nome dos cds, o nome da gravadora de cada cd e a categoria dos mesmos*/
+select titulo.nome_cd, gravadora.nome_gravadora, categoria.nome_categoria
+from titulo inner join gravadora
+on titulo.cod.gravadora = gravadora.cod_gravadora inner join categoria
+on titulo.cod_categoria = categortia.cod_categoria;
+
+/*Selecionar o nome dos clientes e os titulos dos cds vendidos em cada pedido que o cliente fez*/
+select cliente.nome_cliente, pedido.nome_pedido
+from cliente inner join pedido
+on cliente.cod_cleinte = pedido.cod_cliente;
+
+/*Selecionar o nome do funcionario, numero, data e o valor dos pedidos que o funcionario registrou. alem do nome do cliente que esta fazendo o pedido*/
+select funcionario.nome_funcionario, pedido.numero_pedido, pedido.data_pedido, pedido.val_pedido, cliente.nome_cliente
+from funcionario inner join pedido
+on funcionario.cod_funcionario = pedido.cod_funcionario inner join cliente
+on cliente.cod_cliente = pedido.cod_cliente;
+
+/*Selecionar o nome dos funcionarios e o nome de todos os dependentes que cada funcionario possui*/
+select funcionario.nome_funcionario, dependente.nome_dependente
+from funcionario inner join dependente
+on funcionario.cod_funcionario = dependente.cod_funcionario;
+
+/*Selecionar o nome dos clientes e o nome dos conjuges de cada cliente*/
+select cliente.nome_cliente, conjuge.nome_conjuge
+from cliente inner join conjuge
+on cliente.cod_cliente = conjuge.cod_cliente;
+
+/*Selecionar o nome de todos os clientes, se possuirem conjuges, mostrar os nomes dos conjuges*/
+select cliente.nome_cliente, conjuge.nome_cliente;
+
+
+
+
+/*selecionar: nome do cliente, nome conjuge, nome pedido, nome pedido que cada cliente fez, valor de cada pedido que o cliente fez*/
+select cliente.nome_cliente, conjuge.nome_conjuge, pedido.nome_pedido, pedido.val_pedido
+from cliente inner join conjuge
+on
