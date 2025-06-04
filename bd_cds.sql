@@ -179,7 +179,7 @@ on titulo.cod_categoria = categoria.cod_categoria;
 /*Selecionar o nome dos cds, o nome da gravadora de cada cd e a categoria dos mesmos*/
 select titulo.nome_cd, gravadora.nome_gravadora, categoria.nome_categoria
 from titulo inner join gravadora
-on titulo.cod.gravadora = gravadora.cod_gravadora inner join categoria
+on titulo.cod_gravadora = gravadora.cod_gravadora inner join categoria
 on titulo.cod_categoria = categortia.cod_categoria;
 
 /*Selecionar o nome dos clientes e os titulos dos cds vendidos em cada pedido que o cliente fez*/
@@ -212,4 +212,5 @@ select cliente.nome_cliente, conjuge.nome_cliente;
 /*selecionar: nome do cliente, nome conjuge, nome pedido, nome pedido que cada cliente fez, valor de cada pedido que o cliente fez*/
 select cliente.nome_cliente, conjuge.nome_conjuge, pedido.nome_pedido, pedido.val_pedido
 from cliente inner join conjuge
-on
+on cliente.cod_cliente = conjuge.cod_cliente 
+from 
